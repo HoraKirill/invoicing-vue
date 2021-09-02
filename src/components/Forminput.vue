@@ -43,8 +43,13 @@ export default {
     buttonVisible: {
       default: true,
     },
-    isVisible: {},
-    counterparty: {},
+    isVisible: {
+      default: false,
+    },
+    counterparty: {
+      type: Object,
+      default: () => {}
+    },
   },
   data() {
     return {

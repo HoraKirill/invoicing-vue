@@ -10,7 +10,7 @@
     <button @click="change()" class="btn btn-sm">Изменить</button>
     <button @click="deleteOrg()" class="btn btn-sm">Удалить</button>
 
-    <Forminput
+    <FormInput
       :isVisible="isVisible"
       :counterparty="counterpartyActiv"
       :selectVisible="selectVisible"
@@ -20,12 +20,17 @@
 </template>
 
 <script>
-import Forminput from "@/components/Forminput.vue";
+import FormInput from "@/components/FormInput.vue";
 import { bus } from '../main';
 
 export default {
-  name: "OrganizationSelected",
-  props: ["counterparty"],
+  props: {
+    counterparty: {
+      type: Object,
+      default: () => {}
+    }
+  },
+  
   data() {
     return {
       isVisible: false,
@@ -36,7 +41,7 @@ export default {
     };
   },
   components: {
-    Forminput,
+    FormInput,
   },
   methods: {
     getSelectOrganization () {

@@ -73,14 +73,14 @@
       
       <PDF :numberDogovor="numberDogovor" :items="items" :dateToday="dateToday" :numberScore="numberScore"/>
 
-      <Forminput :isVisible="isVisible" />
+      <FormInput :isVisible="isVisible" />
     </div>
   </div>
 </template>
 
 <script>
 import OrganizationSelected from "@/components/OrganizationSelected.vue";
-import Forminput from "@/components/Forminput.vue";
+import FormInput from "@/components/FormInput.vue";
 import Tableform from "@/components/Tableform.vue";
 import PDF from "@/components/PDF.vue";
 
@@ -104,7 +104,7 @@ export default {
   },
   components: {
     OrganizationSelected,
-    Forminput,
+    FormInput,
     Tableform,
     PDF,
   },
