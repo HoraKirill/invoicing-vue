@@ -7,7 +7,6 @@
           <th width="30%">Номеклатура</th>
           <th width="10%">Количество</th>
           <th width="10%">Цена</th>
-          
           <th width="10%">НДС</th>
           <th width="15%">Сумма</th>
         </tr>
@@ -25,12 +24,13 @@
             </span>
           </td>
           <td>
-            <span v-if="editIndex !== index">{{ item.quantity }}</span>
+            <span v-if="editIndex !== index">{{ item.quantity }} </span>
             <span v-if="editIndex === index">
               <input
                 class="form-control form-control-sm"
                 type="number"
                 v-model="item.quantity"
+                placeholder="0"
               />
             </span>
           </td>
@@ -41,10 +41,11 @@
                 class="form-control form-control-sm"
                 type="number"
                 v-model="item.price"
+                placeholder="0"
               />
             </span>
           </td>
-          
+
           <td>
             <div class="text-right">{{ subtotalNdc(item) }}</div>
           </td>
@@ -54,7 +55,7 @@
           <td>
             <span v-if="editIndex !== index">
               <button
-                @click="edit(item, index)" 
+                @click="edit(item, index)"
                 class="btn btn-sm btn-outline-secondary mr-2"
               >
                 Редактировать
@@ -75,7 +76,10 @@
               </button>
               <button
                 class="btn btn-sm btn-outline-secondary mr-2"
-                @click="save(item); exportItems();"
+                @click="
+                  save(item);
+                  exportItems();
+                "
               >
                 Сохранить
               </button>
@@ -109,12 +113,12 @@
 </template>
 
 <script>
-
-
-
 export default {
   props: {
-    selectNdc: {},
+    selectNdc: {
+      type: String,
+      default: "",
+    },
   },
 
   data() {
@@ -136,7 +140,6 @@ export default {
         ndc: 0,
       });
       this.editIndex = this.items.length - 1;
-      
     },
 
     edit(item, index) {
@@ -166,7 +169,7 @@ export default {
     },
 
     subtotal(item) {
-      return  item.amount = item.quantity * item.price;
+      return (item.amount = item.quantity * item.price);
     },
 
     subtotalNdc(item) {
@@ -174,12 +177,11 @@ export default {
         return 0;
       }
       item.ndc = (item.quantity * item.price * parseInt(this.selectNdc)) / 120;
-      return  Number(item.ndc.toFixed(2))
+      return Number(item.ndc.toFixed(2));
     },
     exportItems() {
-      
-       this.$emit('itemsarray', this.items)
-    }
+      this.$emit("itemsarray", this.items);
+    },
   },
 
   computed: {
@@ -194,8 +196,6 @@ export default {
         .map((item) => this.subtotalNdc(item))
         .reduce((a, b) => a + b, 0);
     },
-    
-    
   },
 };
 </script>

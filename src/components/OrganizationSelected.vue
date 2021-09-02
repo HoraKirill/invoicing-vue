@@ -1,12 +1,12 @@
 <template>
-  <div class="form-label-margin-bottom " >
+  <div class="form-label-margin-bottom">
     <select v-model="select" @click="selectItem">
       <option disabled value="">Выберите ораганизацию</option>
-      <option v-for="listOoo in counterparty" :key="listOoo.name">
-        {{ listOoo.name }}
+      <option v-for="listOoo in counterparty" :key="listOoo.fileds.name">
+        {{ listOoo.fileds.name }}
       </option>
     </select>
-    <button @click="watch()" class="btn btn-sm">Посмотреть</button>
+    <button @click="watchModal()" class="btn btn-sm">Посмотреть</button>
     <button @click="change()" class="btn btn-sm">Изменить</button>
     <button @click="deleteOrg()" class="btn btn-sm">Удалить</button>
 
@@ -21,21 +21,21 @@
 
 <script>
 import FormInput from "@/components/FormInput.vue";
-import { bus } from '../main';
+import { bus } from "../main";
 
 export default {
   props: {
     counterparty: {
-      type: Object,
-      default: () => {}
-    }
+      type: Array,
+      default: () => [],
+    },
   },
-  
+
   data() {
     return {
       isVisible: false,
       select: "",
-      counterpartyActiv: [],
+      counterpartyActiv: {},
       selectVisible: true,
       buttonVisible: true,
     };
@@ -44,35 +44,33 @@ export default {
     FormInput,
   },
   methods: {
-    getSelectOrganization () {
-      if (this.counterparty !== null )
-      this.counterparty.forEach((element) => {
-        if (element.name === this.select) {
-         return this.counterpartyActiv = element;
-        }
-      });
+    getSelectOrganization() {
+      if (this.counterparty !== null)
+        this.counterparty.forEach((element) => {
+          if (element.fileds.name === this.select) {
+            return (this.counterpartyActiv = element);
+          }
+        });
     },
 
-    watch() {
+    watchModal() {
       this.isVisible = true;
-      this.getSelectOrganization ()
+      this.getSelectOrganization();
       this.selectVisible = false;
       this.buttonVisible = false;
-     
     },
 
     change() {
       this.isVisible = true;
-      this.getSelectOrganization ()
+      this.getSelectOrganization();
     },
 
     deleteOrg() {
-      let listOrgCount = this.counterparty.listOrgCount
-      this.counterparty.forEach((element, index) => {
-        if (element.name === this.select) {
-          this.counterparty.splice(index, 1)
-          }
-      });
+      let listOrgCount = this.counterparty.listOrgCount;
+      const idx = this.counterparty.findIndex((i) => i.fileds.name === this.select);
+      if (idx >= 0) {
+        this.counterparty.fileds.splice(idx, 1);
+      }
       if (listOrgCount === "Counterparty") {
         localStorage.setItem("Counterparty", JSON.stringify(this.counterparty));
       } else {
@@ -81,9 +79,9 @@ export default {
     },
 
     selectItem() {
-      this.getSelectOrganization ()
-      bus.$emit('select-items', this.counterpartyActiv)
-    }
+      this.getSelectOrganization();
+      bus.$emit("select-items", this.counterpartyActiv);
+    },
   },
 };
 </script>

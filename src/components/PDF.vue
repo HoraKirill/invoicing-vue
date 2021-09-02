@@ -1,24 +1,33 @@
 <template>
   <div class="pdf">
-
     <button class="btn btn-secondary" @click="generate()">Скачать PDF</button>
- 
   </div>
 </template>
 
 <script>
-
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
-import { bus } from '../main';
+import { bus } from "../main";
 
 export default {
   props: {
-    numberDogovor: {},
-    numberScore: {},
-    dateToday: {},
-    items: [],
+    contractNumber: {
+      type: String,
+      default: "",
+    },
+    numberScore: {
+      type: String,
+      default: "",
+    },
+    dateToday: {
+      type: String,
+      default: "",
+    },
+    items: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   data() {
@@ -38,59 +47,87 @@ export default {
               heights: [12, 12, 12],
               body: [
                 [
-                  { rowSpan: 2, text: this.organization.nameBank + "\n" + "\n" + "Банк получателя" },
+                  {
+                    rowSpan: 2,
+                    text:
+                      this.organization.nameBank +
+                      "\n" +
+                      "\n" +
+                      "Банк получателя",
+                  },
                   "БИК",
-                  { rowSpan: 2, text: this.organization.bik + "\n" + "\n" + this.organization.korChet},
+                  {
+                    rowSpan: 2,
+                    text:
+                      this.organization.bik +
+                      "\n" +
+                      "\n" +
+                      this.organization.korChet,
+                  },
                 ],
                 ["", "Сч.№"],
                 [
-                  "ИНН " + this.organization.inn + "                | КПП " + this.organization.kpp,
+                  "ИНН " +
+                    this.organization.inn +
+                    "                | КПП " +
+                    this.organization.kpp,
                   { rowSpan: 2, text: "Сч.№" },
                   { rowSpan: 2, text: this.organization.rasChet },
                 ],
-                [ this.organization.name + "\n" + "\n" + "Получатель " , "", ""],
+                [this.organization.name + "\n" + "\n" + "Получатель ", "", ""],
               ],
             },
           },
-          {text: '---------------------------------------------------------------------------------------------------------------------------------------------------------'},
           {
-            text: "Счет на оплату № " + this.numberScore + " от " + this.dateToday,
+            text: "---------------------------------------------------------------------------------------------------------------------------------------------------------",
+          },
+          {
+            text:
+              "Счет на оплату № " + this.numberScore + " от " + this.dateToday,
             style: "header",
           },
           {
             text: [
-              'Поставщик: ',
-              {text: this.organization.name +
-              " ИНН " +
-              this.organization.inn +
-              " " +
-              this.organization.adress +
-              " " +
-              this.organization.telefon,
-            style: "tableHeader" },
-          ],
+              "Поставщик: ",
+              {
+                text:
+                  this.organization.name +
+                  " ИНН " +
+                  this.organization.inn +
+                  " " +
+                  this.organization.adress +
+                  " " +
+                  this.organization.telefon,
+                style: "tableHeader",
+              },
+            ],
           },
-          {text: ' '},
+          { text: " " },
           {
             text: [
-              'Получатель: ',
-              {text: this.counterparty.name +
-              " ИНН " +
-              this.counterparty.inn +
-              " " +
-              this.counterparty.adress +
-              " " +
-              this.counterparty.telefon ,
-            style: "tableHeader" },
-          ],
+              "Получатель: ",
+              {
+                text:
+                  this.counterparty.name +
+                  " ИНН " +
+                  this.counterparty.inn +
+                  " " +
+                  this.counterparty.adress +
+                  " " +
+                  this.counterparty.telefon,
+                style: "tableHeader",
+              },
+            ],
           },
-          {text: ' '},
+          { text: " " },
           {
             text: [
-              'Основание: ',
-              {text: "Договор № " + this.numberDogovor,
-            style: "tableHeader" },
-          ],
+              "Основание: ",
+              {
+                text: "Договор № " + this.contractNumber,
+                style: "tableHeader",
+              },
+            ],
           },
           {
             style: "tableExample",
@@ -106,18 +143,36 @@ export default {
               " ",
               { text: " " },
               { text: " " },
-              { type: "none", style: "bold", ol: ["ндс " + this.allSubTotalNdc(), "Всего " + this.allSubTotal (),  " "] },
+              {
+                type: "none",
+                style: "bold",
+                ol: [
+                  "ндс " + this.allSubTotalNdc(),
+                  "Всего " + this.allSubTotal(),
+                  " ",
+                ],
+              },
             ],
           },
-          {text: "Всего наименований " + this.items.length + " на сумму " + this.allSubTotal ()},
-          {text: ' '},
+          {
+            text:
+              "Всего наименований " +
+              this.items.length +
+              " на сумму " +
+              this.allSubTotal(),
+          },
+          { text: " " },
           {
             text: "Оплата данного счета означает согласие с условиями поставки товара. \n Уведомление об оплате обязательно, в противном случае не гарантируется наличие товара на складе.Товар отпускается по факту прихода денег на р/с Поставщика, самовывозом, при наличии доверенности и паспорта.",
           },
-          {text: '---------------------------------------------------------------------------------------------------------------------------------------------------------'},
-          {text: ' '},
-          {text: ' '},
-          {text: 'Руководитель _______________________________________________________________________________'},
+          {
+            text: "---------------------------------------------------------------------------------------------------------------------------------------------------------",
+          },
+          { text: " " },
+          { text: " " },
+          {
+            text: "Руководитель _______________________________________________________________________________",
+          },
         ],
 
         styles: {
@@ -147,7 +202,7 @@ export default {
       };
       pdfMake.createPdf(docDefinition).download("optionalName.pdf");
     },
-    
+
     dateTable() {
       let dateTab = [["№", "Товары", "Кол-во", "Цена", "Сумма"]];
       for (let i = 0; i < this.items.length; i++) {
@@ -162,15 +217,12 @@ export default {
       return dateTab;
     },
 
-
     subtotalNdc(item) {
-      return  Number(item.ndc.toFixed(2))
+      return Number(item.ndc.toFixed(2));
     },
 
     allSubTotal() {
-      return this.items
-        .map((item) => item.amount)
-        .reduce((a, b) => a + b, 0);
+      return this.items.map((item) => item.amount).reduce((a, b) => a + b, 0);
     },
 
     allSubTotalNdc() {
@@ -178,17 +230,15 @@ export default {
         .map((item) => this.subtotalNdc(item))
         .reduce((a, b) => a + b, 0);
     },
-
   },
-  mounted(){ 
-      bus.$on('select-items', (datas) => {
+  mounted() {
+    bus.$on("select-items", (datas) => {
       if (datas.listOrgCount === "Organization") {
-        this.organization = datas
+        this.organization = datas;
       } else {
-         this.counterparty = datas
+        this.counterparty = datas;
       }
-      })
-    },
-  
+    });
+  },
 };
 </script>

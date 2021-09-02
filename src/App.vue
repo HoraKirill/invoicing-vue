@@ -16,11 +16,11 @@
     </div>
 
     <div class="row g-3 Organization-item">
-          <div class="col-sm-3">
-      <button @click="isVisible = true" class="btn btn-secondary">
-        Создать Организацию или Контрагента
-      </button>
-    </div>
+      <div class="col-sm-3">
+        <button @click="isVisible = true" class="btn btn-secondary">
+          Создать Организацию или Контрагента
+        </button>
+      </div>
       <div class="col-sm-2">
         <label for="validationDefault01" class="form-label">Дата</label>
         <input
@@ -36,7 +36,7 @@
           >Номер договора</label
         >
         <input
-          v-model="numberDogovor"
+          v-model="contractNumber"
           type="text"
           class="form-control"
           id="validationDefault02"
@@ -69,9 +69,14 @@
 
     <div class="Organization-item">
       <h3>Товары</h3>
-      <Tableform :selectNdc="selectNdc" @itemsarray="itemsarray"/>
-      
-      <PDF :numberDogovor="numberDogovor" :items="items" :dateToday="dateToday" :numberScore="numberScore"/>
+      <Tableform :selectNdc="selectNdc" @itemsarray="itemsarray" />
+
+      <PDF
+        :contractNumber="contractNumber"
+        :items="items"
+        :dateToday="dateToday"
+        :numberScore="numberScore"
+      />
 
       <FormInput :isVisible="isVisible" />
     </div>
@@ -91,16 +96,16 @@ export default {
       counterparty: JSON.parse(localStorage.getItem("Counterparty")),
       organization: JSON.parse(localStorage.getItem("Organization")),
       selectNdc: "20 %",
-      dateToday: '',
-      numberDogovor: '',
-      numberScore: '',
-      items:[]
+      dateToday: "",
+      contractNumber: "",
+      numberScore: "",
+      items: [],
     };
   },
   methods: {
     itemsarray(data) {
-      this.items = data
-    }
+      this.items = data;
+    },
   },
   components: {
     OrganizationSelected,
@@ -127,6 +132,4 @@ h1 {
   background: rgba(241, 239, 238, 0.5);
   border-radius: 10px;
 }
-
-
 </style>

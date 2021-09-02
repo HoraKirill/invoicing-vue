@@ -5,26 +5,27 @@
       <button @close="isVisible = !isVisible" class="btn-close">x</button>
     </div>
     <div v-show="selectVisible">
-      <select v-model="activList" >
+      <select v-model="activList">
         <option disabled value="">Выберите тип</option>
         <option value="Organization">Организация</option>
         <option value="Counterparty">Контрагент</option>
       </select>
-       Вид организации
+      Вид организации
     </div>
 
-    <label><input v-model="name" /> Название Организации </label>
-    <label> <input v-model="inn" /> ИНН </label>
-    <label> <input v-model="kpp" /> КПП</label>
-    <label> <input v-model="bik" /> БИК </label>
-    <label> <input v-model="nameBank" /> Название банка </label>
-    <label> <input v-model="rasChet" /> Расч. счет </label>
-    <label> <input v-model="korChet" /> Корр. счет </label>
-    <label> <input v-model="adress" /> Адресс </label>
-    <label> <input v-model="telefon" /> Телефон </label>
+    <label><input v-model="fileds.name" /> Название Организации </label>
+    <label> <input v-model="fileds.inn" /> ИНН </label>
+    <label> <input v-model="fileds.kpp" /> КПП</label>
+    <label> <input v-model="fileds.bik" /> БИК </label>
+    <label> <input v-model="fileds.nameBank" /> Название банка </label>
+    <label> <input v-model="fileds.rasChet" /> Расч. счет </label>
+    <label> <input v-model="fileds.korChet" /> Корр. счет </label>
+    <label> <input v-model="fileds.adress" /> Адресс </label>
+    <label> <input v-model="fileds.telefon" /> Телефон </label>
     <br />
 
-    <button class="btn btn-secondary"
+    <button
+      class="btn btn-secondary"
       @click="submit"
       @close="isVisible = !isVisible"
       v-show="buttonVisible"
@@ -48,22 +49,24 @@ export default {
     },
     counterparty: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
   },
   data() {
     return {
-      name: "",
-      inn: "",
-      kpp: "",
-      bik: "",
-      nameBank: "",
-      rasChet: "",
-      korChet: "",
-      adress: "",
-      telefon: "",
+      fileds: {
+        name: "",
+        inn: "",
+        kpp: "",
+        bik: "",
+        nameBank: "",
+        rasChet: "",
+        korChet: "",
+        adress: "",
+        telefon: "",
+      },
       listOrgCount: "",
-      activList: "Выберите тип"
+      activList: "Выберите тип",
     };
   },
   methods: {
@@ -83,7 +86,7 @@ export default {
           localStorage.getItem(`${this.counterparty.listOrgCount}`)
         );
         list.forEach((element, index) => {
-          if (element.name == this.counterparty.name) {
+          if (element.fileds.name == this.counterparty.fileds.name) {
             list.splice(index, 1);
           }
           localStorage.setItem(
@@ -95,21 +98,23 @@ export default {
     },
     submit() {
       if (this.activList === "Выберите тип") {
-        alert("Выберете тип организации")
+        alert("Выберете тип организации");
         event.preventDefault();
       }
       this.deleteOldcounterparty();
       let listOrg = {
-        listOrgCount: this.listOrgCount = this.activList,
-        name: this.name,
-        inn: this.inn,
-        kpp: this.kpp,
-        bik: this.bik,
-        nameBank: this.nameBank,
-        rasChet: this.rasChet,
-        korChet: this.korChet,
-        adress: this.adress,
-        telefon: this.telefon,
+        listOrgCount: (this.listOrgCount = this.activList),
+        fileds: {
+          name: this.fileds.name,
+          inn: this.fileds.inn,
+          kpp: this.fileds.kpp,
+          bik: this.fileds.bik,
+          nameBank: this.fileds.nameBank,
+          rasChet: this.fileds.rasChet,
+          korChet: this.fileds.korChet,
+          adress: this.fileds.adress,
+          telefon: this.fileds.telefon,
+        },
       };
       if (this.listOrgCount === "Counterparty") {
         this.pushOrganization(this.listOrgCount, listOrg);
@@ -121,17 +126,7 @@ export default {
   watch: {
     counterparty: function () {
       if (this.counterparty != undefined) {
-        (this.name = this.counterparty.name),
-          (this.inn = this.counterparty.inn),
-          (this.kpp = this.counterparty.kpp),
-          (this.bik = this.counterparty.bik),
-          (this.nameBank = this.counterparty.nameBank),
-          (this.rasChet = this.counterparty.rasChet),
-          (this.korChet = this.counterparty.korChet),
-          (this.rasChet = this.counterparty.rasChet),
-          (this.korChet = this.counterparty.korChet),
-          (this.adress = this.counterparty.adress),
-          (this.telefon = this.counterparty.telefon);
+        this.fileds = this.counterparty.fileds;
       }
     },
   },
