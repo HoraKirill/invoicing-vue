@@ -51,7 +51,7 @@ export default {
                   {
                     rowSpan: 2,
                     text:
-                      this.organization.fileds.nameBank + "\n" +
+                      this.organization.fields.nameBank + "\n" +
                       "\n" +
                       "Банк получателя",
                   },
@@ -59,22 +59,22 @@ export default {
                   {
                     rowSpan: 2,
                     text:
-                      this.organization.fileds.bik +
+                      this.organization.fields.bik +
                       "\n" +
                       "\n" +
-                      this.organization.fileds.korChet,
+                      this.organization.fields.korChet,
                   },
                 ],
                 ["", "Сч.№"],
                 [
                   "ИНН " +
-                    this.organization.fileds.inn +
+                    this.organization.fields.inn +
                     "                | КПП " +
-                    this.organization.fileds.kpp,
+                    this.organization.fields.kpp,
                   { rowSpan: 2, text: "Сч.№" },
-                  { rowSpan: 2, text: this.organization.fileds.rasChet },
+                  { rowSpan: 2, text: this.organization.fields.rasChet },
                 ],
-                [this.organization.fileds.name + "\n" + "\n" + "Получатель ", "", ""],
+                [this.organization.fields.name + "\n" + "\n" + "Получатель ", "", ""],
               ],
             },
           },
@@ -91,13 +91,13 @@ export default {
               "Поставщик: ",
               {
                 text:
-                  this.organization.fileds.name +
+                  this.organization.fields.name +
                   " ИНН " +
-                  this.organization.fileds.inn +
+                  this.organization.fields.inn +
                   " " +
-                  this.organization.fileds.adress +
+                  this.organization.fields.adress +
                   " " +
-                  this.organization.fileds.telefon,
+                  this.organization.fields.telefon,
                 style: "tableHeader",
               },
             ],
@@ -108,13 +108,13 @@ export default {
               "Получатель: ",
               {
                 text:
-                  this.counterparty.fileds.name +
+                  this.counterparty.fields.name +
                   " ИНН " +
-                  this.counterparty.fileds.inn +
+                  this.counterparty.fields.inn +
                   " " +
-                  this.counterparty.fileds.adress +
+                  this.counterparty.fields.adress +
                   " " +
-                  this.counterparty.fileds.telefon,
+                  this.counterparty.fields.telefon,
                 style: "tableHeader",
               },
             ],

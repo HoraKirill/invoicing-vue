@@ -3,12 +3,12 @@
     <table class="table table-bordered mt-5">
       <thead class="thead-light">
         <tr>
-          <th width="5%">#</th>
-          <th width="30%">Номеклатура</th>
-          <th width="10%">Количество</th>
-          <th width="10%">Цена</th>
-          <th width="10%">НДС</th>
-          <th width="15%">Сумма</th>
+          <th >#</th>
+          <th >Номеклатура</th>
+          <th >Количество</th>
+          <th >Цена</th>
+          <th >НДС</th>
+          <th >Сумма</th>
         </tr>
       </thead>
       <tbody>

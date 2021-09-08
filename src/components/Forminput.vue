@@ -1,33 +1,152 @@
   <template>
-  <form v-show="isVisible" class="showModal">
-    <div class="header">
-      <h3>Данные Организации</h3>
-      <button @close="isVisible = !isVisible" class="btn-close">x</button>
-    </div>
+  <form class="g-3" @submit="onSubmit">
     <div v-show="selectVisible">
-      <select v-model="activList">
-        <option disabled value="">Выберите тип</option>
+      <label class="form-label">Вид организации</label>
+      <select
+        v-model="activList"
+        class="form-select"
+        :class="{ 'is-invalid': $v.activList.$error }"
+        @blur="$v.activList.$touch()"
+      >
+        <option disabled value="Выберите тип">Выберите тип</option>
         <option value="Organization">Организация</option>
         <option value="Counterparty">Контрагент</option>
       </select>
-      Вид организации
     </div>
 
-    <label><input v-model="fileds.name" /> Название Организации </label>
-    <label> <input v-model="fileds.inn" /> ИНН </label>
-    <label> <input v-model="fileds.kpp" /> КПП</label>
-    <label> <input v-model="fileds.bik" /> БИК </label>
-    <label> <input v-model="fileds.nameBank" /> Название банка </label>
-    <label> <input v-model="fileds.rasChet" /> Расч. счет </label>
-    <label> <input v-model="fileds.korChet" /> Корр. счет </label>
-    <label> <input v-model="fileds.adress" /> Адресс </label>
-    <label> <input v-model="fileds.telefon" /> Телефон </label>
-    <br />
+    <div class="row mb-1">
+      <label for="fields.name" class="col-sm-5 col-form-label"
+        >Название Организации</label
+      >
+      <div class="col-sm-6">
+        <input
+          v-model="fields.name"
+          id="fields.name"
+          class="form-control"
+          :class="{ 'is-invalid': $v.fields.name.$error }"
+          @blur="$v.fields.name.$touch()"
+          :disabled="disabledInput"
+        />
+      </div>
+    </div>
+    <div class="row mb-1">
+      <label for="fields.inn" class="col-sm-5 col-form-label">ИНН</label>
+      <div class="col-sm-6">
+        <input
+          v-model="fields.inn"
+          id="fields.inn"
+          class="form-control"
+          :class="{ 'is-invalid': $v.fields.inn.$error }"
+          @blur="$v.fields.inn.$touch()"
+          :disabled="disabledInput"
+        />
+      </div>
+    </div>
+    <div class="row mb-1">
+      <label for="fields.kpp" class="col-sm-5 col-form-label">КПП</label>
+      <div class="col-sm-6">
+        <input
+          v-model="fields.kpp"
+          id="fields.kpp"
+          class="form-control"
+          :class="{ 'is-invalid': $v.fields.kpp.$error }"
+          @blur="$v.fields.kpp.$touch()"
+          :disabled="disabledInput"
+        />
+      </div>
+    </div>
+    <div class="row mb-1">
+      <label for="fields.bik" class="col-sm-5 col-form-label">БИК</label>
+      <div class="col-sm-6">
+        <input
+          v-model="fields.bik"
+          id="fields.bik"
+          class="form-control"
+          :class="{ 'is-invalid': $v.fields.bik.$error }"
+          @blur="$v.fields.bik.$touch()"
+          :disabled="disabledInput"
+        />
+      </div>
+    </div>
+    <div class="row mb-1">
+      <label for="fields.nameBank" class="col-sm-5 col-form-label"
+        >Название банка</label
+      >
+      <div class="col-sm-6">
+        <input
+          v-model="fields.nameBank"
+          id="fields.nameBank"
+          class="form-control"
+          :class="{ 'is-invalid': $v.fields.nameBank.$error }"
+          @blur="$v.fields.nameBank.$touch()"
+          :disabled="disabledInput"
+        />
+      </div>
+    </div>
+    <div class="row mb-1">
+      <label for="fields.rasChet" class="col-sm-5 col-form-label"
+        >Расч. счет</label
+      >
+      <div class="col-sm-6">
+        <input
+          v-model="fields.rasChet"
+          id="fields.rasChet"
+          class="form-control"
+          :class="{ 'is-invalid': $v.fields.rasChet.$error }"
+          @blur="$v.fields.rasChet.$touch()"
+          :disabled="disabledInput"
+        />
+      </div>
+    </div>
+    <div class="row mb-1">
+      <label for="fields.korChet" class="col-sm-5 col-form-label"
+        >Корр. счет</label
+      >
+      <div class="col-sm-6">
+        <input
+          v-model="fields.korChet"
+          id="fields.korChet"
+          class="form-control"
+          :class="{ 'is-invalid': $v.fields.korChet.$error }"
+          @blur="$v.fields.korChet.$touch()"
+          :disabled="disabledInput"
+        />
+      </div>
+    </div>
+    <div class="row mb-1">
+      <label for="fields.adress" class="col-sm-5 col-form-label">Адрес</label>
+      <div class="col-sm-6">
+        <input
+          v-model="fields.adress"
+          id="fields.adress"
+          class="form-control"
+          :class="{ 'is-invalid': $v.fields.adress.$error }"
+          @blur="$v.fields.adress.$touch()"
+          :disabled="disabledInput"
+        />
+      </div>
+    </div>
+    <div class="row mb-1">
+      <label for="fields.telefon" class="col-sm-5 col-form-label"
+        >Телефон</label
+      >
+      <div class="col-sm-6">
+        <input
+          v-model="fields.telefon"
+          id="fields.telefon"
+          class="form-control"
+          :class="{ 'is-invalid': $v.fields.telefon.$error }"
+          @blur="$v.fields.telefon.$touch()"
+          :disabled="disabledInput"
+        />
+      </div>
+    </div>
 
     <button
-      class="btn btn-secondary"
-      @click="submit"
-      @close="isVisible = !isVisible"
+      type="submit"
+      class="btn btn-secondary footer"
+      :disabled="$v.$invalid"
+      @click="$emit('close')"
       v-show="buttonVisible"
     >
       Сохранить
@@ -36,25 +155,30 @@
 </template>
 
 <script>
+import { required } from "vuelidate/lib/validators";
+
 export default {
   props: {
     selectVisible: {
+      type: Boolean,
       default: true,
     },
     buttonVisible: {
+      type: Boolean,
       default: true,
     },
-    isVisible: {
-      default: false,
-    },
-    counterparty: {
+    fillingCounterparty: {
       type: Object,
       default: () => {},
     },
+    disabledInput: {
+      type: Boolean,
+      default: false  
+    }
   },
   data() {
     return {
-      fileds: {
+      fields: {
         name: "",
         inn: "",
         kpp: "",
@@ -65,9 +189,28 @@ export default {
         adress: "",
         telefon: "",
       },
+      elProps: {},
       listOrgCount: "",
       activList: "Выберите тип",
     };
+  },
+  validations: {
+    activList: {
+      selectNotSelected: (data) => {
+        return data !== "Выберите тип";
+      },
+    },
+    fields: {
+      name: { required },
+      inn: { required },
+      kpp: { required },
+      bik: { required },
+      nameBank: { required },
+      rasChet: { required },
+      korChet: { required },
+      adress: { required },
+      telefon: { required },
+    },
   },
   methods: {
     pushOrganization(item, arrList) {
@@ -81,39 +224,35 @@ export default {
       }
     },
     deleteOldcounterparty() {
-      if (this.counterparty != undefined) {
+      if (this.fillingCounterparty != undefined) {
         let list = JSON.parse(
-          localStorage.getItem(`${this.counterparty.listOrgCount}`)
+            localStorage.getItem(`${this.fillingCounterparty.listOrgCount}`)
         );
         list.forEach((element, index) => {
-          if (element.fileds.name == this.counterparty.fileds.name) {
+          if (element.fields.name == this.fillingCounterparty.fields.name) {
             list.splice(index, 1);
           }
           localStorage.setItem(
-            this.counterparty.listOrgCount,
-            JSON.stringify(list)
+              this.fillingCounterparty.listOrgCount,
+              JSON.stringify(list)
           );
         });
       }
     },
-    submit() {
-      if (this.activList === "Выберите тип") {
-        alert("Выберете тип организации");
-        event.preventDefault();
-      }
+    onSubmit() {
       this.deleteOldcounterparty();
       let listOrg = {
         listOrgCount: (this.listOrgCount = this.activList),
-        fileds: {
-          name: this.fileds.name,
-          inn: this.fileds.inn,
-          kpp: this.fileds.kpp,
-          bik: this.fileds.bik,
-          nameBank: this.fileds.nameBank,
-          rasChet: this.fileds.rasChet,
-          korChet: this.fileds.korChet,
-          adress: this.fileds.adress,
-          telefon: this.fileds.telefon,
+        fields: {
+          name: this.fields.name,
+          inn: this.fields.inn,
+          kpp: this.fields.kpp,
+          bik: this.fields.bik,
+          nameBank: this.fields.nameBank,
+          rasChet: this.fields.rasChet,
+          korChet: this.fields.korChet,
+          adress: this.fields.adress,
+          telefon: this.fields.telefon,
         },
       };
       if (this.listOrgCount === "Counterparty") {
@@ -123,51 +262,20 @@ export default {
       }
     },
   },
-  watch: {
-    counterparty: function () {
-      if (this.counterparty != undefined) {
-        this.fileds = this.counterparty.fileds;
-      }
+  mounted() {
+        if (Object.keys(this.fillingCounterparty).length !== 0) {
+          this.fields = {...this.fillingCounterparty.fields}
+          }
     },
-  },
 };
 </script>
 
 <style scoped>
-.showModal {
-  display: block;
-  position: fixed;
-  z-index: 100;
-  left: 35%;
-  top: 50px;
-  width: 500px;
-  margin: 5px 5px;
-  padding: 20px 30px;
-  background-color: #f8f9fa;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-  font-family: Helvetica, Arial, sans-serif;
-  text-align: left;
-  border-radius: 10px;
-}
-
-.btn-close {
-  background: #ff0000;
-  height: 30px;
-  width: 30px;
+form {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  position: absolute;
-  right: 0;
-  top: 0;
-  background: none;
-  cursor: pointer;
-  transition: 0.3s;
-  outline: none;
+  flex-direction: column;
 }
-
-input {
-  margin: 2px 3px 3px 0px;
+select {
+  margin-bottom: 1rem;
 }
 </style>

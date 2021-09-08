@@ -1,23 +1,27 @@
 <template>
-  <div id="app" class="container-xl">
+  <div id="app" class="container-md">
     <div>
       <h1 class="text-center">Выставление счетов</h1>
     </div>
     <div>
-      <div class="Organization-item">
+      <div class="organizationItem">
         <h3 class="">Организация</h3>
-        <OrganizationSelected :counterparty="organization" />
+        <OrganizationСhanges :counterparty="organization" />
       </div>
 
-      <div class="Organization-item">
+      <div class="organizationItem">
         <h3 class="">Контрагент</h3>
-        <OrganizationSelected :counterparty="counterparty" />
+        <OrganizationСhanges :counterparty="counterparty" />
       </div>
     </div>
 
-    <div class="row g-3 Organization-item">
+    <div class="row g-3 organizationItem">
       <div class="col-sm-3">
-        <button @click="isVisible = true" class="btn btn-secondary">
+        <button
+          @click="showModal = true"
+          type="button"
+          class="btn btn-secondary"
+         >
           Создать Организацию или Контрагента
         </button>
       </div>
@@ -54,11 +58,10 @@
         />
       </div>
       <div class="col-sm-2">
-        <label for="validationDefault04" class="form-label">Ставка НДС</label>
+        <label class="form-label">Ставка НДС</label>
         <select
           v-model="selectNdc"
           class="form-select"
-          id="validationDefault04"
         >
           <option>20 %</option>
           <option>10 %</option>
@@ -67,9 +70,11 @@
       </div>
     </div>
 
-    <div class="Organization-item">
+    <div class="organizationItem">
       <h3>Товары</h3>
-      <Tableform :selectNdc="selectNdc" @itemsarray="itemsarray" />
+      <TableForm 
+      :selectNdc="selectNdc" 
+      @itemsarray="itemsArray" />
 
       <PDF
         :contractNumber="contractNumber"
@@ -78,21 +83,29 @@
         :numberScore="numberScore"
       />
 
-      <FormInput :isVisible="isVisible" />
+      <ModalWindow 
+      v-if="showModal" 
+      @close="showModal = false">
+        <FormInput 
+        slot="body"  
+        @close="showModal = false"
+        />
+        <h2 slot="header">Данные Организации</h2>
+      </ModalWindow>
     </div>
   </div>
 </template>
 
 <script>
-import OrganizationSelected from "@/components/OrganizationSelected.vue";
+import OrganizationСhanges from "@/components/OrganizationСhanges.vue";
 import FormInput from "@/components/FormInput.vue";
-import Tableform from "@/components/Tableform.vue";
+import TableForm from "@/components/TableForm.vue";
 import PDF from "@/components/PDF.vue";
+import ModalWindow from "@/components/ModalWindow.vue";
 
 export default {
   data() {
     return {
-      isVisible: false,
       counterparty: JSON.parse(localStorage.getItem("Counterparty")),
       organization: JSON.parse(localStorage.getItem("Organization")),
       selectNdc: "20 %",
@@ -100,18 +113,20 @@ export default {
       contractNumber: "",
       numberScore: "",
       items: [],
+      showModal: false
     };
   },
   methods: {
-    itemsarray(data) {
+    itemsArray(data) {
       this.items = data;
     },
   },
   components: {
-    OrganizationSelected,
+    OrganizationСhanges,
     FormInput,
-    Tableform,
+    TableForm,
     PDF,
+    ModalWindow,
   },
 };
 </script>
@@ -126,7 +141,7 @@ h1 {
   padding-top: 30px;
 }
 
-.Organization-item {
+.organizationItem {
   margin: 5px -20px;
   padding: 20px 20px 20px;
   background: rgba(241, 239, 238, 0.5);
